@@ -8,11 +8,9 @@ local classIcons = LGRI.icons.classIcons
 local roleIcons = LGRI.icons.roleIcons
 
 local function UpdateMyRace(raceId)
-    local my = LGRI.my
-
     local function ShowTooltip(LGRIRaceIcon)                    -- X  Y
         InitializeTooltip(InformationTooltip, LGRIRaceIcon, RIGHT, 0, 0, LEFT)
-        SetTooltipText(InformationTooltip, my.race)
+        SetTooltipText(InformationTooltip, LGRI.self.race)
     end
 
     local function HideTooltip(LGRIRaceIcon)
@@ -22,10 +20,10 @@ local function UpdateMyRace(raceId)
     -- Race
     local race = racesDict[raceId]
     if race then
-        my.race = race.name
-        my.raceIcon = race.icon
+        LGRI.self.race = race.name
+        LGRI.self.raceIcon = race.icon
 
-        LGRI.UI.MyRaceIcon:SetTexture(my.raceIcon)
+        LGRI.UI.MyRaceIcon:SetTexture(LGRI.self.raceIcon)
 
         LGRI.UI.MyRaceIcon:SetHandler("OnMouseEnter", function(LGRIRaceIcon) ShowTooltip(LGRIRaceIcon) end)
         LGRI.UI.MyRaceIcon:SetHandler("OnMouseExit", function(LGRIRaceIcon) HideTooltip(LGRIRaceIcon) end)
@@ -33,37 +31,34 @@ local function UpdateMyRace(raceId)
 end
 
 local function UpdateMyClass(classId)
-    --local unitTag = self:GetUnitTag()
-    local my = LGRI.my
-
     -- Class
     -- Retrieve the icon path based on classId
     local classIcon = classIcons[classId]
 
     -- Check if the icon exists and update the texture
     if classIcon then
-        my.classIcon = classIcon
-        LGRI.UI.MyClassIcon:SetTexture(my.classIcon)
+        LGRI.self.classIcon = classIcon
+        LGRI.UI.MyClassIcon:SetTexture(LGRI.self.classIcon)
     end
 end
 
 local function UpdateMyRole(eventId, unitTag)
+    --local unitTag = self:GetUnitTag()
     if unitTag and unitTag ~= GetGroupUnitTagByIndex(GetGroupIndexByUnitTag("player")) then
         return
     end
 
-    local my = LGRI.my
     local roleId = GetGroupMemberSelectedRole("player")
 
     -- Role
     local roleIcon = roleIcons[roleId] or "esoui/art/armory/builditem_icon.dds"
-    my.roleIcon = roleIcon
-    LGRI.UI.MyRoleIcon:SetTexture(my.roleIcon)
+    LGRI.self.roleIcon = roleIcon
+    LGRI.UI.MyRoleIcon:SetTexture(LGRI.self.roleIcon)
     LGRI.UI.MyRoleIcon:SetHidden(roleIcon == "esoui/art/armory/builditem_icon.dds")
 end
 
 function LGRI.Main.myPanel()
-    LGRI.my = {
+    LGRI.self = {
         raceId = nil,
         race = "",
         raceIcon = "",
@@ -72,11 +67,11 @@ function LGRI.Main.myPanel()
         roleId = LFG_ROLE_INVALID,
         roleIcon = "",
     }
-    LGRI.my.raceId = GetUnitRaceId("player")
-    LGRI.my.classId = GetUnitClassId("player")
+    LGRI.self.raceId = GetUnitRaceId("player")
+    LGRI.self.classId = GetUnitClassId("player")
 
-    UpdateMyRace(LGRI.my.raceId)
-    UpdateMyClass(LGRI.my.classId)
+    UpdateMyRace(LGRI.self.raceId)
+    UpdateMyClass(LGRI.self.classId)
     UpdateMyRole()
 end
 
