@@ -6,7 +6,7 @@ LGRI.MY = {}
 function LGRI.MY.UpdateMyRace(raceId)
     local my = LGRI.my
 
-    local function ShowTooltip(LGRIRaceIcon)					-- X  Y
+    local function ShowTooltip(LGRIRaceIcon)                    -- X  Y
         InitializeTooltip(InformationTooltip, LGRIRaceIcon, RIGHT, 0, 0, LEFT)
         SetTooltipText(InformationTooltip, my.race)
     end
@@ -16,23 +16,23 @@ function LGRI.MY.UpdateMyRace(raceId)
     end
 
     -- Race
-    local races = {
-        [1]  = { icon = "esoui/art/charactercreate/charactercreate_bretonicon_down.dds", name = "Breton" },
-        [2]  = { icon = "esoui/art/charactercreate/charactercreate_redguardicon_down.dds", name = "Redguard" },
-        [3]  = { icon = "esoui/art/charactercreate/charactercreate_orcicon_down.dds", name = "Orc" },
-        [4]  = { icon = "esoui/art/charactercreate/charactercreate_dunmericon_down.dds", name = "Dark Elf" },
-        [5]  = { icon = "esoui/art/charactercreate/charactercreate_nordicon_down.dds", name = "Nord" },
-        [6]  = { icon = "esoui/art/charactercreate/charactercreate_argonianicon_down.dds", name = "Argonian" },
-        [7]  = { icon = "esoui/art/charactercreate/charactercreate_altmericon_down.dds", name = "High Elf" },
-        [8]  = { icon = "esoui/art/charactercreate/charactercreate_bosmericon_down.dds", name = "Wood Elf" },
-        [9]  = { icon = "esoui/art/charactercreate/charactercreate_khajiiticon_down.dds", name = "Khajit" },
-        [10] = { icon = "esoui/art/charactercreate/charactercreate_imperialicon_down.dds", name = "Imperial" },
+    local racesDict = {
+        [1]  = { name = "Breton", icon = "esoui/art/charactercreate/charactercreate_bretonicon_down.dds" },
+        [2]  = { name = "Redguard", icon = "esoui/art/charactercreate/charactercreate_redguardicon_down.dds", },
+        [3]  = { name = "Orc", icon = "esoui/art/charactercreate/charactercreate_orcicon_down.dds" },
+        [4]  = { name = "Dark Elf", icon = "esoui/art/charactercreate/charactercreate_dunmericon_down.dds", },
+        [5]  = { name = "Nord", icon = "esoui/art/charactercreate/charactercreate_nordicon_down.dds" },
+        [6]  = { name = "Argonian", icon = "esoui/art/charactercreate/charactercreate_argonianicon_down.dds" },
+        [7]  = { name = "High Elf", icon = "esoui/art/charactercreate/charactercreate_altmericon_down.dds" },
+        [8]  = { name = "Wood Elf", icon = "esoui/art/charactercreate/charactercreate_bosmericon_down.dds" },
+        [9]  = { name = "Khajit", icon = "esoui/art/charactercreate/charactercreate_khajiiticon_down.dds" },
+        [10] = { name = "Imperial", icon = "esoui/art/charactercreate/charactercreate_imperialicon_down.dds" },
     }
 
-    local raceInfo = races[raceId]
-    if raceInfo then
-        my.raceIcon = raceInfo.icon
-        my.race = raceInfo.name
+    local race = racesDict[raceId]
+    if race then
+        my.race = race.name
+        my.raceIcon = race.icon
 
         LGRI.UI.MyRaceIcon:SetTexture(my.raceIcon)
 
@@ -46,64 +46,45 @@ function LGRI.MY.UpdateMyClass(classId)
     local my = LGRI.my
 
     -- Class
-    if classId == 1 then
-        my.classIcon = "esoui/art/icons/class/class_dragonknight.dds"
-        LGRI.UI.MyClassIcon:SetTexture(my.classIcon)
+    local classIcons = {
+        [1] = "esoui/art/icons/class/class_dragonknight.dds",
+        [2] = "esoui/art/icons/class/class_sorcerer.dds",
+        [3] = "esoui/art/icons/class/class_nightblade.dds",
+        [4] = "esoui/art/icons/class/class_warden.dds",
+        [5] = "esoui/art/icons/class/class_necromancer.dds",
+        [6] = "esoui/art/icons/class/class_templar.dds",
+        [117] = "esoui/art/icons/class/class_arcanist.dds",
+    }
 
-    elseif classId == 2 then
-        my.classIcon = "esoui/art/icons/class/class_sorcerer.dds"
-        LGRI.UI.MyClassIcon:SetTexture(my.classIcon)
+    -- Retrieve the icon path based on classId
+    local classIcon = classIcons[classId]
 
-    elseif classId == 3 then
-        my.classIcon = "esoui/art/icons/class/class_nightblade.dds"
-        LGRI.UI.MyClassIcon:SetTexture(my.classIcon)
-
-    elseif classId == 4 then
-        my.classIcon = "esoui/art/icons/class/class_warden.dds"
-        LGRI.UI.MyClassIcon:SetTexture(my.classIcon)
-
-    elseif classId == 5 then
-        my.classIcon = "esoui/art/icons/class/class_necromancer.dds"
-        LGRI.UI.MyClassIcon:SetTexture(my.classIcon)
-
-    elseif classId == 6 then
-        my.classIcon = "esoui/art/icons/class/class_templar.dds"
-        LGRI.UI.MyClassIcon:SetTexture(my.classIcon)
-        
-    elseif classId == 117 then
-        my.classIcon = "esoui/art/icons/class/class_arcanist.dds"
+    -- Check if the icon exists and update the texture
+    if classIcon then
+        my.classIcon = classIcon
         LGRI.UI.MyClassIcon:SetTexture(my.classIcon)
     end
 end
 
 function LGRI.MY.UpdateMyRole(eventId, unitTag)
-    if unitTag ~= nil then
-        local index = GetGroupIndexByUnitTag("player")
-        local myUnitTag = GetGroupUnitTagByIndex(index)
-        if unitTag ~= myUnitTag then return end
+    if unitTag and unitTag ~= GetGroupUnitTagByIndex(GetGroupIndexByUnitTag("player")) then
+        return
     end
 
     local my = LGRI.my
     local roleId = GetGroupMemberSelectedRole("player")
 
     -- Role
-    if roleId == 1 then
-        my.roleIcon = "esoui/art/lfg/lfg_icon_dps.dds"
-        LGRI.UI.MyRoleIcon:SetTexture(my.roleIcon)
-        LGRI.UI.MyRoleIcon:SetHidden(false)
-    elseif roleId == 2 then
-        my.roleIcon = "esoui/art/lfg/lfg_icon_tank.dds"
-        LGRI.UI.MyRoleIcon:SetTexture(my.roleIcon)
-        LGRI.UI.MyRoleIcon:SetHidden(false)
-    elseif roleId == 4 then
-        my.roleIcon = "esoui/art/lfg/lfg_icon_healer.dds"
-        LGRI.UI.MyRoleIcon:SetTexture(my.roleIcon)
-        LGRI.UI.MyRoleIcon:SetHidden(false)
-    else
-        LGRI.UI.MyRoleIcon:SetHidden(true)
-        my.roleIcon = "esoui/art/armory/builditem_icon.dds"
-        LGRI.UI.MyRoleIcon:SetTexture(my.roleIcon)
-    end
+    local roleIcons = {
+        [1] = "esoui/art/lfg/lfg_icon_dps.dds",
+        [2] = "esoui/art/lfg/lfg_icon_tank.dds",
+        [4] = "esoui/art/lfg/lfg_icon_healer.dds"
+    }
+
+    local roleIcon = roleIcons[roleId] or "esoui/art/armory/builditem_icon.dds"
+    my.roleIcon = roleIcon
+    LGRI.UI.MyRoleIcon:SetTexture(my.roleIcon)
+    LGRI.UI.MyRoleIcon:SetHidden(roleIcon == "esoui/art/armory/builditem_icon.dds")
 end
 
 function LGRI.MY.CreateMy()
@@ -125,15 +106,15 @@ function LGRI.MY.CreateMy()
 end
 
 function LGRI.MY.HideAndShowIcons()
-    if LGRI.savedVars.visible == true then
-        LGRI.UI.MyFrame:SetHidden(true)
-        d("LGRI: Hiding icons.")
-        LGRI.savedVars.visible = false
-    else
-        LGRI.UI.MyFrame:SetHidden(false)
-        d("LGRI: Showing icons.")
-        LGRI.savedVars.visible = true
-    end
+    local isVisible = LGRI.savedVars.visible
+    local action = isVisible and "Hiding" or "Showing"
+
+    -- Toggle visibility
+    LGRI.UI.MyFrame:SetHidden(isVisible)
+
+    -- Update savedVars and print status
+    LGRI.savedVars.visible = not isVisible
+    d("LGRI: " .. action .. " icons.") --TODO: Fix this
 end
 
 SLASH_COMMANDS["/lgri"] = LGRI.MY.HideAndShowIcons
