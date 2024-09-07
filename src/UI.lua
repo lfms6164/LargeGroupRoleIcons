@@ -3,7 +3,7 @@ local LGRI = LargeGroupRoleIcons
 
 LGRI.UI = {}
 
-local WM = GetWindowManager()
+local WM = WINDOW_MANAGER
 
 function LGRI.UI.setPos()
     LGRI.UI.MyFrame:ClearAnchors()

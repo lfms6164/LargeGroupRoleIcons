@@ -3,12 +3,14 @@ local LGRI = LargeGroupRoleIcons
 
 LGRI.Main = {}
 
+local EM = EVENT_MANAGER
+
 local racesDict = LGRI.icons.racesDict
 local classIcons = LGRI.icons.classIcons
 local roleIcons = LGRI.icons.roleIcons
 
 local function UpdateMyRace(raceId)
-    local function ShowTooltip(LGRIRaceIcon)                    -- X  Y
+    local function ShowTooltip(LGRIRaceIcon) -- X  Y
         InitializeTooltip(InformationTooltip, LGRIRaceIcon, RIGHT, 0, 0, LEFT)
         SetTooltipText(InformationTooltip, LGRI.self.race)
     end
@@ -57,6 +59,21 @@ local function UpdateMyRole(eventId, unitTag)
     LGRI.UI.MyRoleIcon:SetHidden(roleIcon == "esoui/art/armory/builditem_icon.dds")
 end
 
+function LGRI.Main.RegisterUpdateMyRoleEvents(eventId, unitTag)
+    EM:RegisterForEvent(LGRI.name .. "IJoinedGroup", EVENT_GROUP_MEMBER_JOINED,
+        function(eventId, memberCharacterName, isLocalPlayer, memberDisplayName)
+            if not isLocalPlayer then return end
+            UpdateMyRole()
+        end)
+    EM:RegisterForEvent(LGRI.name .. "MyRoleChanged", EVENT_GROUP_MEMBER_ROLE_CHANGED, UpdateMyRole)
+    EM:RegisterForEvent(LGRI.name .. "ILeftGroup", EVENT_GROUP_MEMBER_LEFT,
+        function(eventId, memberCharacterName, groupLeaveReason, isLocalPlayer, isLeader, memberDisplayName,
+                 actionRequiredVote)
+            if not isLocalPlayer then return end
+            UpdateMyRole()
+        end)
+end
+
 function LGRI.Main.myPanel()
     LGRI.self = {
         raceId = nil,
@@ -84,7 +101,7 @@ local function HideAndShowIcons()
 
     -- Update savedVars and print status
     LGRI.savedVars.visible = not isVisible
-    d("LGRI: " .. action .. " icons.") --TODO: Fix this
+    d("LGRI: " .. action .. " icons.")
 end
 
 SLASH_COMMANDS["/lgri"] = HideAndShowIcons

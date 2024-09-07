@@ -3,7 +3,7 @@ local LGRI = LargeGroupRoleIcons
 LGRI.name = "LargeGroupRoleIcons"
 LGRI.version = "1"
 
-local EM = GetEventManager()
+local EM = EVENT_MANAGER
 
 local defaults = {
 	visible = true,
@@ -13,32 +13,17 @@ local defaults = {
 	MyFrameY = 100,
 }
 
-function LargeGroupRoleIcons.Initialize()
+function LGRI.OnAddOnLoaded(event, addonName)
+	if addonName ~= LGRI.name then return end
+	EM:UnregisterForEvent(LGRI.name, EVENT_ADD_ON_LOADED)
+
 	LGRI.savedVars = ZO_SavedVars:NewAccountWide("LargeGroupRoleIconsVars", 1, nil, defaults)
 
 	LGRI.Settings.CreateSettingsWindow()
 	LGRI.UI.BuildUI()
 	LGRI.Main.myPanel()
-end
 
-function LGRI.OnAddOnLoaded(event, addonName)
-	if addonName ~= LGRI.name then return end
-	EM:UnregisterForEvent(LGRI.name, EVENT_ADD_ON_LOADED)
-
-	LargeGroupRoleIcons.Initialize()
-
-	EM:RegisterForEvent(LGRI.name .. "IJoinedGroup", EVENT_GROUP_MEMBER_JOINED,
-		function(eventId, memberCharacterName, isLocalPlayer, memberDisplayName)
-			if not isLocalPlayer then return end
-			LGRI.Main.UpdateMyRole()
-		end)
-	EM:RegisterForEvent(LGRI.name .. "MyRoleChanged", EVENT_GROUP_MEMBER_ROLE_CHANGED, LGRI.Main.UpdateMyRole)
-	EM:RegisterForEvent(LGRI.name .. "ILeftGroup", EVENT_GROUP_MEMBER_LEFT,
-		function(eventId, memberCharacterName, groupLeaveReason, isLocalPlayer, isLeader, memberDisplayName,
-				 actionRequiredVote)
-			if not isLocalPlayer then return end
-			LGRI.Main.UpdateMyRole()
-		end)
+	LGRI.Main.RegisterUpdateMyRoleEvents()
 end
 
 EM:RegisterForEvent(LGRI.name, EVENT_ADD_ON_LOADED, LGRI.OnAddOnLoaded)
