@@ -1,13 +1,13 @@
 LargeGroupRoleIcons = LargeGroupRoleIcons or {}
 local LGRI = LargeGroupRoleIcons
 
-LGRI.MY = {}
+LGRI.Main = {}
 
 local racesDict = LGRI.icons.racesDict
 local classIcons = LGRI.icons.classIcons
 local roleIcons = LGRI.icons.roleIcons
 
-function LGRI.MY.UpdateMyRace(raceId)
+local function UpdateMyRace(raceId)
     local my = LGRI.my
 
     local function ShowTooltip(LGRIRaceIcon)                    -- X  Y
@@ -32,7 +32,7 @@ function LGRI.MY.UpdateMyRace(raceId)
     end
 end
 
-function LGRI.MY.UpdateMyClass(classId)
+local function UpdateMyClass(classId)
     --local unitTag = self:GetUnitTag()
     local my = LGRI.my
 
@@ -47,7 +47,7 @@ function LGRI.MY.UpdateMyClass(classId)
     end
 end
 
-function LGRI.MY.UpdateMyRole(eventId, unitTag)
+local function UpdateMyRole(eventId, unitTag)
     if unitTag and unitTag ~= GetGroupUnitTagByIndex(GetGroupIndexByUnitTag("player")) then
         return
     end
@@ -62,7 +62,7 @@ function LGRI.MY.UpdateMyRole(eventId, unitTag)
     LGRI.UI.MyRoleIcon:SetHidden(roleIcon == "esoui/art/armory/builditem_icon.dds")
 end
 
-function LGRI.MY.CreateMy()
+function LGRI.Main.myPanel()
     LGRI.my = {
         raceId = nil,
         race = "",
@@ -75,12 +75,12 @@ function LGRI.MY.CreateMy()
     LGRI.my.raceId = GetUnitRaceId("player")
     LGRI.my.classId = GetUnitClassId("player")
 
-    LGRI.MY.UpdateMyRace(LGRI.my.raceId)
-    LGRI.MY.UpdateMyClass(LGRI.my.classId)
-    LGRI.MY.UpdateMyRole()
+    UpdateMyRace(LGRI.my.raceId)
+    UpdateMyClass(LGRI.my.classId)
+    UpdateMyRole()
 end
 
-function LGRI.MY.HideAndShowIcons()
+local function HideAndShowIcons()
     local isVisible = LGRI.savedVars.visible
     local action = isVisible and "Hiding" or "Showing"
 
@@ -92,4 +92,4 @@ function LGRI.MY.HideAndShowIcons()
     d("LGRI: " .. action .. " icons.") --TODO: Fix this
 end
 
-SLASH_COMMANDS["/lgri"] = LGRI.MY.HideAndShowIcons
+SLASH_COMMANDS["/lgri"] = HideAndShowIcons

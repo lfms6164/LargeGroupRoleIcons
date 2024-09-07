@@ -7,7 +7,7 @@
 ## SavedVariables: LargeGroupRoleIconsVars
 
 src/helpers/icons.lua
-src/LargeGroupRoleIconsMY.lua
 src/init.lua
+src/Main.lua
 src/Settings.lua
 src/UI.lua

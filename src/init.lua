@@ -18,7 +18,7 @@ function LargeGroupRoleIcons.Initialize()
 
 	LGRI.Settings.CreateSettingsWindow()
 	LGRI.UI.BuildUI()
-	LGRI.MY.CreateMy()
+	LGRI.Main.myPanel()
 end
 
 function LGRI.OnAddOnLoaded(event, addonName)
@@ -30,14 +30,14 @@ function LGRI.OnAddOnLoaded(event, addonName)
 	EM:RegisterForEvent(LGRI.name .. "IJoinedGroup", EVENT_GROUP_MEMBER_JOINED,
 		function(eventId, memberCharacterName, isLocalPlayer, memberDisplayName)
 			if not isLocalPlayer then return end
-			LGRI.MY.UpdateMyRole()
+			LGRI.Main.UpdateMyRole()
 		end)
-	EM:RegisterForEvent(LGRI.name .. "MyRoleChanged", EVENT_GROUP_MEMBER_ROLE_CHANGED, LGRI.MY.UpdateMyRole)
+	EM:RegisterForEvent(LGRI.name .. "MyRoleChanged", EVENT_GROUP_MEMBER_ROLE_CHANGED, LGRI.Main.UpdateMyRole)
 	EM:RegisterForEvent(LGRI.name .. "ILeftGroup", EVENT_GROUP_MEMBER_LEFT,
 		function(eventId, memberCharacterName, groupLeaveReason, isLocalPlayer, isLeader, memberDisplayName,
 				 actionRequiredVote)
 			if not isLocalPlayer then return end
-			LGRI.MY.UpdateMyRole()
+			LGRI.Main.UpdateMyRole()
 		end)
 end
 
