@@ -3,6 +3,10 @@ local LGRI = LargeGroupRoleIcons
 
 LGRI.MY = {}
 
+local racesDict = LGRI.icons.racesDict
+local classIcons = LGRI.icons.classIcons
+local roleIcons = LGRI.icons.roleIcons
+
 function LGRI.MY.UpdateMyRace(raceId)
     local my = LGRI.my
 
@@ -16,19 +20,6 @@ function LGRI.MY.UpdateMyRace(raceId)
     end
 
     -- Race
-    local racesDict = {
-        [1]  = { name = "Breton", icon = "esoui/art/charactercreate/charactercreate_bretonicon_down.dds" },
-        [2]  = { name = "Redguard", icon = "esoui/art/charactercreate/charactercreate_redguardicon_down.dds", },
-        [3]  = { name = "Orc", icon = "esoui/art/charactercreate/charactercreate_orcicon_down.dds" },
-        [4]  = { name = "Dark Elf", icon = "esoui/art/charactercreate/charactercreate_dunmericon_down.dds", },
-        [5]  = { name = "Nord", icon = "esoui/art/charactercreate/charactercreate_nordicon_down.dds" },
-        [6]  = { name = "Argonian", icon = "esoui/art/charactercreate/charactercreate_argonianicon_down.dds" },
-        [7]  = { name = "High Elf", icon = "esoui/art/charactercreate/charactercreate_altmericon_down.dds" },
-        [8]  = { name = "Wood Elf", icon = "esoui/art/charactercreate/charactercreate_bosmericon_down.dds" },
-        [9]  = { name = "Khajit", icon = "esoui/art/charactercreate/charactercreate_khajiiticon_down.dds" },
-        [10] = { name = "Imperial", icon = "esoui/art/charactercreate/charactercreate_imperialicon_down.dds" },
-    }
-
     local race = racesDict[raceId]
     if race then
         my.race = race.name
@@ -46,16 +37,6 @@ function LGRI.MY.UpdateMyClass(classId)
     local my = LGRI.my
 
     -- Class
-    local classIcons = {
-        [1] = "esoui/art/icons/class/class_dragonknight.dds",
-        [2] = "esoui/art/icons/class/class_sorcerer.dds",
-        [3] = "esoui/art/icons/class/class_nightblade.dds",
-        [4] = "esoui/art/icons/class/class_warden.dds",
-        [5] = "esoui/art/icons/class/class_necromancer.dds",
-        [6] = "esoui/art/icons/class/class_templar.dds",
-        [117] = "esoui/art/icons/class/class_arcanist.dds",
-    }
-
     -- Retrieve the icon path based on classId
     local classIcon = classIcons[classId]
 
@@ -75,12 +56,6 @@ function LGRI.MY.UpdateMyRole(eventId, unitTag)
     local roleId = GetGroupMemberSelectedRole("player")
 
     -- Role
-    local roleIcons = {
-        [1] = "esoui/art/lfg/lfg_icon_dps.dds",
-        [2] = "esoui/art/lfg/lfg_icon_tank.dds",
-        [4] = "esoui/art/lfg/lfg_icon_healer.dds"
-    }
-
     local roleIcon = roleIcons[roleId] or "esoui/art/armory/builditem_icon.dds"
     my.roleIcon = roleIcon
     LGRI.UI.MyRoleIcon:SetTexture(my.roleIcon)

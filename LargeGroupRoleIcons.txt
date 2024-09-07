@@ -6,6 +6,8 @@
 ## DependsOn: LibAddonMenu-2.0
 ## SavedVariables: LargeGroupRoleIconsVars
 
-LargeGroupRoleIconsMY.lua
-LargeGroupRoleIconsUI.lua
-LargeGroupRoleIcons.lua
+src/helpers/icons.lua
+src/LargeGroupRoleIconsMY.lua
+src/init.lua
+src/Settings.lua
+src/UI.lua
