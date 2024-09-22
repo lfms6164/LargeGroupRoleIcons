@@ -19,8 +19,8 @@ function LGRI.Settings.CreateSettingsWindow()
             name = "Default location",
             tooltip = "Set my icons to default position.",
             func = function()
-                LGRI.UI.MyFrame:ClearAnchors()
-                LGRI.UI.MyFrame:SetAnchor(CENTER, GuiRoot, TOP, 0, 100)
+                LGRI.UI.playerFrame.Frame:ClearAnchors()
+                LGRI.UI.playerFrame.Frame:SetAnchor(CENTER, GuiRoot, TOP, 0, 100)
                 LGRI.savedVars.defaultPos = true
             end,
             isDangerous = true
@@ -32,13 +32,8 @@ function LGRI.Settings.CreateSettingsWindow()
             getFunc = function() return LGRI.savedVars.visible end,
             setFunc = function(value)
                 LGRI.savedVars.visible = value
-                if value == false then
-                    LGRI.UI.MyFrame:SetHidden(true)
-                    LGRI.UI.HudToggle(false)
-                else
-                    LGRI.UI.MyFrame:SetHidden(false)
-                    LGRI.UI.HudToggle(true)
-                end
+                LGRI.UI.playerFrame.Frame:SetHidden(not value)
+                LGRI.UI.HudToggle(value)
             end
         },
         {
@@ -48,13 +43,8 @@ function LGRI.Settings.CreateSettingsWindow()
             getFunc = function() return LGRI.savedVars.lockUI end,
             setFunc = function(value)
                 LGRI.savedVars.lockUI = value
-                if value == true then
-                    LGRI.UI.MyFrame:SetMouseEnabled(false)
-                    LGRI.UI.MyFrame:SetMovable(false)
-                else
-                    LGRI.UI.MyFrame:SetMouseEnabled(true)
-                    LGRI.UI.MyFrame:SetMovable(true)
-                end
+                LGRI.UI.playerFrame.Frame:SetMouseEnabled(not value)
+                LGRI.UI.playerFrame.Frame:SetMovable(not value)
             end
         }
     }

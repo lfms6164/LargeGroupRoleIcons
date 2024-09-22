@@ -20,10 +20,10 @@ function LGRI.OnAddOnLoaded(event, addonName)
 	LGRI.savedVars = ZO_SavedVars:NewAccountWide("LargeGroupRoleIconsVars", 1, nil, defaults)
 
 	LGRI.Settings.CreateSettingsWindow()
-	LGRI.UI.BuildUI()
-	LGRI.Main.myPanel()
 
-	LGRI.Main.RegisterUpdateMyRoleEvents()
+	LGRI.Main.CreatePlayerTable()
+
+	LGRI.Main.RegisterEvents()
 end
 
 EM:RegisterForEvent(LGRI.name, EVENT_ADD_ON_LOADED, LGRI.OnAddOnLoaded)
