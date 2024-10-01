@@ -1,6 +1,6 @@
 ## Title: LargeGroupRoleIcons
 ## Author: @SlLva
-## Version: 1
+## Version: 0.2
 ## APIVersion: 101036
 
 ## DependsOn: LibAddonMenu-2.0
